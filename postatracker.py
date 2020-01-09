@@ -1,19 +1,24 @@
 #!/usr/bin/python
 
-import requests, json, pyjq, time
+import requests, json, pyjq, time, argparse
 from collections import namedtuple
 
 TRACK_ENTRY = namedtuple('TrackEntry', ('timestamp', 'location', 'status'))
 
 def main():
-    from sys import argv
-    try:
-        number = argv[1]
-    except IndexError:
-        print('Usage: {0} <tracking number>'.format(argv[0]))
-        raise SystemExit(1)
+    parser = argparse.ArgumentParser(description='CLI Tool to get tracking information from the Magyar Posta')
+    parser.add_argument('Number', metavar='number',type=str, help='tracking number')
+    parser.add_argument('-v', '--verbose', action='store_true', help='list the detailed tracking information')
+    args = parser.parse_args()
+    
+    if args.verbose:
+        json_data = track_request(args.Number)
+        
+        #TODO
+        print "verbose mode"
+    
     else:
-        json_data = track_request(number)
+        json_data = track_request(args.Number)
 
         raw_data = pyjq.all('.[] | .[0].time, .[0].postaNev, .[0].tranzakcioTipusLeirasSimple',json_data)
         

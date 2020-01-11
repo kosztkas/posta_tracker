@@ -29,7 +29,6 @@ def track_request(number):
     return json.loads(resp.content)
     
 def track_request_iter(json_d):
-    i = 0
     raw_data = pyjq.all('.[] | .[].time, .[].postaNev, .[].tranzakcioTipusLeirasSimple',json_d)
     for i in range(len(raw_data)/3):
         yield TRACK_ENTRY(timestamp=time.ctime(raw_data[i]/1000), location=raw_data[i+len(raw_data)/3], status=raw_data[i+2*len(raw_data)/3])

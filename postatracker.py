@@ -14,7 +14,7 @@ def main():
     json_data = track_request(args.Number)
     
     if json_data[str(args.Number)] == None:
-        print "The given tracking number does not exist."
+        print ("The given tracking number does not exist.")
         exit()
     
     if args.verbose:

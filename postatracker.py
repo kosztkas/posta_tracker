@@ -13,6 +13,10 @@ def main():
     
     json_data = track_request(args.Number)
     
+    if json_data[str(args.Number)] == None:
+        print "The given tracking number does not exist."
+        exit()
+    
     if args.verbose:
         for item in track_request_iter(json_data):
             print('\t'.join((item.timestamp, item.location, item.status)))
